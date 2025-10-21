@@ -20,6 +20,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
+import { useNavigate } from "react-router-dom"
+import { ROUTES } from "@/shared/constants/route-paths"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -37,6 +39,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
 
   return (
     <SidebarMenu>
@@ -82,7 +85,7 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => navigate(ROUTES.PROFILE)}>
                 <IconUserCircle />
                 Tài khoản
               </DropdownMenuItem>

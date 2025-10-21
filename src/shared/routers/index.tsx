@@ -7,10 +7,12 @@ import Auth from "@/features/auth/pages";
 import ForgetPassword from "@/features/auth/pages/ForgetPassword";
 import Learn from "@/features/learn/pages";
 import Notes from "@/features/notes/pages";
+import Profile from "@/features/profile/pages";
+import { ROUTES } from "@/shared/constants/route-paths";
 
 export const router = createBrowserRouter([
   {
-    path: "/auth",
+    path: ROUTES.AUTH,
     element: <DefaultLayout />,
     children: [
       { index: true, element: <Auth /> },
@@ -18,13 +20,14 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
+    path: ROUTES.HOME,
     element: <AdminLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "libraries", element: <Library /> },
-      { path: "learn", element: <Learn /> },
-      { path: "notes", element: <Notes /> },
+      { path: ROUTES.LIBRARIES.replace("/", ""), element: <Library /> },
+      { path: ROUTES.LEARN.replace("/", ""), element: <Learn /> },
+      { path: ROUTES.NOTES.replace("/", ""), element: <Notes /> },
+      { path: ROUTES.PROFILE.replace("/", ""), element: <Profile /> },
     ],
   },
 ]);

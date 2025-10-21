@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import { AppSidebar } from "@/shared/components/app-sidebar";
 import { SiteHeader } from "@/shared/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/shared/components/ui/sidebar";
+import Container from "@/shared/components/container";
 
 const AdminLayout: React.FC = () => {
   return (
@@ -20,7 +21,9 @@ const AdminLayout: React.FC = () => {
         <SiteHeader />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
-            <Outlet />
+            <Container>
+              <Outlet />
+            </Container>
           </div>
         </div>
       </SidebarInset>

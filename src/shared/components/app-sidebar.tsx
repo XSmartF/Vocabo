@@ -31,6 +31,8 @@ import {
 } from "@/shared/components/ui/sidebar"
 import { NavNotes } from "./nav-notes"
 
+import { ROUTES } from "@/shared/constants/route-paths"
+
 const data = {
   user: {
     name: "shadcn",
@@ -40,27 +42,27 @@ const data = {
   navMain: [
     {
       title: "Trang chủ",
-      url: "#",
+      url: ROUTES.HOME,
       icon: IconDashboard,
     },
     {
       title: "Học tập",
-      url: "#",
+      url: ROUTES.LEARN,
       icon: IconListDetails,
     },
     {
       title: "Thư viện",
-      url: "#",
+      url: ROUTES.LIBRARIES,
       icon: IconChartBar,
     },
     {
       title: "Ghi chép",
-      url: "#",
+      url: ROUTES.NOTES,
       icon: IconFolder,
     },
     {
       title: "Hồ sơ",
-      url: "#",
+      url: ROUTES.PROFILE,
       icon: IconUsers,
     },
   ],

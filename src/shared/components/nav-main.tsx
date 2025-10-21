@@ -1,4 +1,5 @@
 import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react"
+import { NavLink } from "react-router-dom"
 
 import { Button } from "@/shared/components/ui/button"
 import {
@@ -43,10 +44,16 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
+              <NavLink to={item.url} className="flex items-center gap-2">
+                {({ isActive }: { isActive: boolean }) => (
+                  <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+                    <span className="flex items-center gap-2">
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </span>
+                  </SidebarMenuButton>
+                )}
+              </NavLink>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
