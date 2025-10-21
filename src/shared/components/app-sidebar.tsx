@@ -12,12 +12,11 @@ import {
   IconInnerShadowTop,
   IconListDetails,
   IconReport,
-  IconSearch,
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react"
 
-import { NavDocuments } from "@/shared/components/nav-documents"
+import { NavLibraries } from "@/shared/components/nav-libraries"
 import { NavMain } from "@/shared/components/nav-main"
 import { NavSecondary } from "@/shared/components/nav-secondary"
 import { NavUser } from "@/shared/components/nav-user"
@@ -30,6 +29,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/shared/components/ui/sidebar"
+import { NavNotes } from "./nav-notes"
 
 const data = {
   user: {
@@ -39,27 +39,27 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Trang chủ",
       url: "#",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
+      title: "Học tập",
       url: "#",
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
+      title: "Thư viện",
       url: "#",
       icon: IconChartBar,
     },
     {
-      title: "Projects",
+      title: "Ghi chép",
       url: "#",
       icon: IconFolder,
     },
     {
-      title: "Team",
+      title: "Hồ sơ",
       url: "#",
       icon: IconUsers,
     },
@@ -114,36 +114,53 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
+      title: "Cài đặt",
       url: "#",
       icon: IconSettings,
     },
     {
-      title: "Get Help",
+      title: "Hỗ trợ",
       url: "#",
       icon: IconHelp,
     },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
   ],
-  documents: [
+  libraries: [
     {
-      name: "Data Library",
+      title: "Từ vựng writing task 1",
       url: "#",
       icon: IconDatabase,
     },
     {
-      name: "Reports",
+      title: "Reading nugmet",
       url: "#",
       icon: IconReport,
     },
     {
-      name: "Word Assistant",
+      title: "Full từ vựng writing task 2",
       url: "#",
       icon: IconFileWord,
+    },
+    {
+      title: "Từ vựng nâng cao",
+      url: "#",
+      icon: IconFileAi,
+    },
+  ],
+  notes: [
+    {
+      title: "Cách viết bài viết writing task 1",
+      url: "#",
+      icon: IconFileDescription,
+    },
+    {
+      title: "Từ vựng đồng nghĩa nên học",
+      url: "#",
+      icon: IconFolder,
+    },
+    {
+      title: "Ghi chú ngữ pháp trọng tâm",
+      url: "#",
+      icon: IconReport,
     },
   ],
 }
@@ -160,7 +177,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Vocabo</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -168,7 +185,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavLibraries items={data.libraries} />
+        <NavNotes items={data.notes} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

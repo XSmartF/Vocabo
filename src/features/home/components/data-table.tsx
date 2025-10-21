@@ -51,7 +51,6 @@ import {
 } from "@tanstack/react-table"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { toast } from "sonner"
-// zod not required here after removing runtime schema
 
 import { useIsMobile } from "@/shared/hooks/use-mobile"
 import { Badge } from "@/shared/components/ui/badge"

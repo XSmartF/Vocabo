@@ -4,7 +4,9 @@ import { SidebarTrigger } from "@/shared/components/ui/sidebar"
 
 export function SiteHeader() {
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+    // Make the header sticky so it remains visible when scrolling.
+    // We add top-0, sticky, z-30 and a background to prevent content bleed-through.
+    <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-sm flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator
