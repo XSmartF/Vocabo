@@ -9,8 +9,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
+import { Skeleton } from "@/shared/components/ui/skeleton"
 
-export function SectionCards() {
+export function SectionCards({ loading = false }: { loading?: boolean }) {
+  if (loading) {
+    return (
+      <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+        {[1, 2, 3, 4].map((i) => (
+          <Card key={i} className="@container/card">
+            <CardHeader>
+              <Skeleton className="h-3 w-28 mb-2" />
+              <Skeleton className="h-8 w-32 mb-3" />
+              <CardAction>
+                <Skeleton className="h-6 w-16 rounded-full" />
+              </CardAction>
+            </CardHeader>
+            <CardFooter className="flex-col items-start gap-1.5 text-sm">
+              <Skeleton className="h-4 w-52 mb-2" />
+              <Skeleton className="h-3 w-40" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
   return (
   <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">

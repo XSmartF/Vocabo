@@ -61,6 +61,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/shared/components/ui/chart"
+import { Skeleton } from "@/shared/components/ui/skeleton"
 import { Checkbox } from "@/shared/components/ui/checkbox"
 import {
   Drawer,
@@ -336,8 +337,10 @@ function DraggableRow({ row }: { row: Row<DataRow> }) {
 
 export function DataTable({
   data: initialData,
+  loading = false,
 }: {
   data: DataRow[]
+  loading?: boolean
 }) {
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState({})
@@ -397,6 +400,41 @@ export function DataTable({
         return arrayMove(data, oldIndex, newIndex)
       })
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="w-full">
+        <div className="flex items-center justify-between mb-4">
+          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-8 w-32" />
+        </div>
+        <div className="overflow-hidden rounded-lg border">
+          <table className="w-full table-fixed">
+            <thead>
+              <tr>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <th key={i} className="p-3">
+                    <Skeleton className="h-4 w-24" />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: 6 }).map((_, row) => (
+                <tr key={row} className="border-t">
+                  {Array.from({ length: 8 }).map((_, col) => (
+                    <td key={col} className="p-3">
+                      <Skeleton className="h-4 w-full" />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )   
   }
 
   return (

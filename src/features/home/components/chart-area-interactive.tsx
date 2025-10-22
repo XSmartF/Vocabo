@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
+import { Skeleton } from "@/shared/components/ui/skeleton"
 import type { ChartConfig } from "@/shared/components/ui/chart"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/components/ui/chart"
 import {
@@ -136,7 +137,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartAreaInteractive() {
+export function ChartAreaInteractive({ loading = false }: { loading?: boolean }) {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("90d")
 
@@ -159,6 +160,23 @@ export function ChartAreaInteractive() {
     startDate.setDate(startDate.getDate() - daysToSubtract)
     return date >= startDate
   })
+
+  if (loading) {
+    return (
+      <Card className="@container/card">
+        <CardHeader>
+          <Skeleton className="h-6 w-48 mb-1" />
+          <Skeleton className="h-3 w-32" />
+          <CardAction>
+            <Skeleton className="h-8 w-24 ml-2 rounded-full" />
+          </CardAction>
+        </CardHeader>
+        <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+          <Skeleton className="h-[250px] w-full rounded-lg" />
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
     <Card className="@container/card">

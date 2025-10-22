@@ -6,11 +6,18 @@ import { DataTable } from "@/features/home/components/data-table";
 import data from "@/features/home/mocks/data.json";
 
 const Home: React.FC = () => {
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1200)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <div className="space-y-4">
-      <SectionCards />
-      <ChartAreaInteractive />
-      <DataTable data={data} />
+      <SectionCards loading={loading} />
+      <ChartAreaInteractive loading={loading} />
+      <DataTable data={data} loading={loading} />
     </div>
   );
 };
