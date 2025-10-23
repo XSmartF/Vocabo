@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { usePersistedList } from "@/shared/hooks/use-persisted-list"
-import { ICON_OPTIONS } from "@/app/constants/icon-options"
+import { colorOptions, ICON_OPTIONS } from "@/app/constants/icon-options"
 import type { IconOption } from "@/app/constants/icon-options"
 import {
   SidebarGroup,
@@ -43,13 +43,6 @@ export function NavLibraries({
 
   const iconOptions: IconOption[] = ICON_OPTIONS
 
-  const colorOptions = [
-    "#0ea5e9", // sky-500
-    "#10b981", // emerald-500
-    "#f59e0b", // amber-500
-    "#ef4444", // red-500
-    "#7c3aed", // violet-600
-  ]
 
   // Icon selection handled via DropdownMenu below
 

@@ -11,6 +11,14 @@ import {
 
 export type IconOption = { key: string; comp: Icon; label: string }
 
+export const colorOptions = [
+  "#0ea5e9", 
+  "#10b981", 
+  "#f59e0b",
+  "#ef4444", 
+  "#7c3aed",
+]
+
 export const ICON_OPTIONS: IconOption[] = [
   { key: "database", comp: IconDatabase, label: "Từ vựng" },
   { key: "report", comp: IconReport, label: "Báo cáo" },
