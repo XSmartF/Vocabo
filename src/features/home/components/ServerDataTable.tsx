@@ -1,4 +1,5 @@
 import { CommonTable, type ColumnDef, type ServerFetchParams, type ServerFetchResult } from "@/shared/components/table"
+// GripVertical removed (reorder UI removed)
 import type { FilterDef } from "@/shared/lib/tableFilters"
 
 type WordEntry = {
@@ -12,42 +13,7 @@ type WordEntry = {
   progress: number
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:3001"
-
-function buildQuery(params: { pageIndex: number; pageSize: number; sorting: unknown; filters: unknown; globalFilter?: string }) {
-  const { pageIndex, pageSize, sorting, filters, globalFilter } = params as { pageIndex: number; pageSize: number; sorting: unknown; filters: unknown; globalFilter?: string }
-  const qp: Record<string, string> = {}
-  // json-server uses _page and _limit for pagination
-  qp['_page'] = String(pageIndex + 1)
-  qp['_limit'] = String(pageSize)
-
-  // sorting: use _sort and _order (only single sort supported by json-server)
-  if (Array.isArray(sorting) && sorting.length > 0) {
-    const s = sorting[0]
-    qp['_sort'] = s.id ?? ''
-    qp['_order'] = s.desc ? 'desc' : 'asc'
-  }
-
-  // simple global q search using json-server q
-  if (globalFilter) qp['q'] = globalFilter
-
-  // filters: expect array of {id, value}
-  if (Array.isArray(filters)) {
-    for (const f of filters) {
-      if (f.value == null || f.value === "") continue
-      // if it's an array (multiselect) send multiple params
-      if (Array.isArray(f.value)) {
-        // json-server supports repeated query params like tags_like
-        qp[`${f.id}_like`] = f.value.join('|')
-      } else {
-        // for date equality or exact values
-        qp[f.id] = String(f.value)
-      }
-    }
-  }
-
-  return new URLSearchParams(qp).toString()
-}
+// Server-backed table; no local mock storage needed
 
 export default function ServerDataTable() {
   const columns: ColumnDef<WordEntry, unknown>[] = [
@@ -66,16 +32,42 @@ export default function ServerDataTable() {
     { id: 'createdAt', label: 'Added On', type: 'date' },
   ]
 
+  // Server fetcher that calls real backend endpoints
   const fetcher = async (p: ServerFetchParams): Promise<ServerFetchResult<WordEntry>> => {
-    const { pageIndex, pageSize, sorting, filters, globalFilter } = p
-    const qs = buildQuery({ pageIndex, pageSize, sorting, filters, globalFilter })
-    const url = `${API_BASE}/words?${qs}`
-    const res = await fetch(url)
+    const body = {
+      pageIndex: p.pageIndex,
+      pageSize: p.pageSize,
+      sorting: p.sorting,
+      filters: p.filters,
+      globalFilter: p.globalFilter,
+    }
+    const res = await fetch('/api/words/table/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
     if (!res.ok) throw new Error('Failed to fetch')
-    const rows: WordEntry[] = await res.json()
-    // json-server provides x-total-count header
-    const total = Number(res.headers.get('x-total-count') ?? rows.length)
-    return { rows, total }
+    const data = await res.json() as { rows: unknown[]; total: number }
+    const rows: WordEntry[] = data.rows.map((rUnknown, i: number) => {
+      const r = rUnknown as Record<string, unknown>;
+      return {
+        id: typeof r.id === 'number' ? (r.id as number) : i + 1,
+        word: (r.text as string) ?? (r.word as string) ?? '',
+        meaning: (r.definition as string) ?? (r.meaning as string) ?? '',
+    difficulty: ((r.difficulty as string) === 'medium' || (r.difficulty as string) === 'hard') ? (r.difficulty as string as "easy" | "medium" | "hard") : 'easy',
+        tags: Array.isArray(r.tags) ? (r.tags as string[]) : (typeof r.tags === 'string' ? (r.tags as string).split(',').map((s) => s.trim()) : []),
+        createdAt: (r.createdAt as string) ?? new Date().toISOString(),
+        favorite: !!r.favorite,
+        progress: typeof r.progress === 'number' ? (r.progress as number) : 0,
+      }
+    })
+    return { rows, total: data.total }
+  }
+
+  // server reorder handler removed
+
+  const handleRowSelect = (selectedIds: string[]) => {
+    console.debug('Selected rows:', selectedIds)
   }
 
   return (
@@ -87,6 +79,7 @@ export default function ServerDataTable() {
         filters={filters}
         toolbarButtons={[]}
         renderEmpty={<div className="p-6 text-center">No results from server</div>}
+        onRowSelect={handleRowSelect}
       />
     </div>
   )

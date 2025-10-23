@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <ChartAreaInteractive />
       <DataTable />
       <div className="pt-6">
-        <h3 className="text-lg font-semibold mb-2">Server-backed table (json-server)</h3>
+        <h3 className="text-lg font-semibold mb-2">Server-backed table</h3>
         <ServerDataTable />
       </div>
     </div>

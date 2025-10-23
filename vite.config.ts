@@ -11,4 +11,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    // Proxy API requests during development to the backend
+    proxy: {
+      // forward requests starting with /api to the backend API running on localhost:5000
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })

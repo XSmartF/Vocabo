@@ -38,7 +38,9 @@ function generateMockData(n = 57): WordEntry[] {
 const MOCK = generateMockData(73)
 
 const DataTable: React.FC = () => {
-  const [localData, setLocalData] = React.useState<WordEntry[]>(MOCK)
+  // _setLocalData intentionally unused after reorder removal
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [localData, _setLocalData] = React.useState<WordEntry[]>(MOCK)
 
   const columns: ColumnDef<WordEntry, unknown>[] = [
     {
@@ -102,10 +104,6 @@ const DataTable: React.FC = () => {
           <Button key="add" size="sm" onClick={onAdd}>Add</Button>,
         ]}
         filters={filters}
-        enableRowArrange={true}
-        onRowArrange={(newOrder) => {
-          setLocalData(newOrder as WordEntry[])
-        }}
         onRowSelect={(ids) => console.log("onRowSelect: selected ids", ids)}
       />
     </div>
