@@ -21,7 +21,16 @@ import type {
 } from "@tanstack/react-table";
 
 import { Button } from "@/shared/components/ui/button";
-// alert dialog (reorder confirmation) removed
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  // AlertDialogCancel removed - Cancel will be handled via Button to run undo
+} from "@/shared/components/ui/alert-dialog";
 import {
   ArrowUp,
   ArrowDown,
@@ -292,12 +301,12 @@ export function CommonTable<T extends object>({
             onChange={(e) => {
               setGlobalFilter(e.target.value);
               try {
-                  // reset to first page when search changes
-                  table.setPageIndex(0);
-                } catch {
-                  // guard: if table isn't ready for some reason, also reset local pagination
-                  setPagination((p) => ({ ...p, pageIndex: 0 }));
-                }
+                // reset to first page when search changes
+                table.setPageIndex(0);
+              } catch (err) {
+                // guard: if table isn't ready for some reason, also reset local pagination
+                setPagination((p) => ({ ...p, pageIndex: 0 }));
+              }
             }}
             className="max-w-sm"
           />
